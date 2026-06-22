@@ -1,78 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Qualité - Juin 2022</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <style>
-        /* Règles spécifiques pour une impression PDF propre */
-        @media print {
-            body { background-color: white !important; padding: 0 !important; }
-            .shadow-lg, .shadow-xl, .shadow-sm { box-shadow: none !important; }
-            .max-w-5xl { max-width: 100% !important; margin: 0 !important; border: none !important; padding: 1rem !important; }
-            canvas { max-height: 230px !important; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-        }
-    </style>
-</head>
-<body class="bg-slate-100 text-gray-800 font-sans p-4 md:p-8">
-
-    <div class="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-xl border-t-[10px] border-emerald-500">
-        
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 pb-4 border-b-2 border-slate-100">
-            <div>
-                <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">TABLEAU DE BORD QUALITÉ</h1>
-                <h2 class="text-xl text-slate-500 font-semibold mt-1">Bilan Mensuel - JUIN 2022</h2>
-            </div>
-            <div class="mt-4 md:mt-0 text-center bg-emerald-50 px-6 py-2 rounded-xl border border-emerald-100 shadow-sm">
-                <p class="text-emerald-700 font-bold text-sm uppercase tracking-widest">Objectif</p>
-                <p class="text-emerald-600 font-black text-2xl">Zéro Défaut</p>
-            </div>
-        </header>
-
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
-            <!-- Total Réclamations -->
-            <div class="bg-rose-50 p-6 rounded-2xl border border-rose-100 shadow-sm relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 text-rose-900 text-6xl font-black">!</div>
-                <p class="text-rose-800 font-bold uppercase tracking-wider text-xs mb-2 z-10 relative">Total Réclamations</p>
-                <p class="text-6xl font-black text-rose-600 z-10 relative">44</p>
-            </div>
-            
-            <!-- Défaut Majeur -->
-            <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100 shadow-sm relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 text-amber-900 text-6xl font-black">#</div>
-                <p class="text-amber-800 font-bold uppercase tracking-wider text-xs mb-2 z-10 relative">Défaut Majeur (Insectes)</p>
-                <p class="text-6xl font-black text-amber-500 z-10 relative">13</p>
-            </div>
-            
-            <!-- Jours de tranquillité -->
-            <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 shadow-sm relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 text-emerald-900 text-6xl font-black">✓</div>
-                <p class="text-emerald-800 font-bold uppercase tracking-wider text-xs mb-2 z-10 relative">Jours sans réclamation</p>
-                <p class="text-6xl font-black text-emerald-500 z-10 relative">9</p>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div class="bg-white p-5 border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition">
-                <h3 class="text-center font-bold text-slate-700 mb-4 uppercase text-xs tracking-wider">Origine des réclamations</h3>
-                <div class="relative h-56 w-full">
-                    <canvas id="origineChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white p-5 border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition">
-                <h3 class="text-center font-bold text-slate-700 mb-4 uppercase text-xs tracking-wider">Évolution (Juin 2022)</h3>
-                <div class="relative h-56 w-full">
-                    <canvas id="evolutionChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="bg-white p-5 border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition">
                 <h3 class="text-center font-bold text-slate-700 mb-4 uppercase text-xs tracking-wider">Top 5 - Causes de Réclamations</h3>
                 <div class="relative h-60 w-full">
@@ -88,17 +14,16 @@
             </div>
         </section>
 
-        <footer class="bg-slate-800 p-6 rounded-2xl shadow-inner text-white">
-        <h4 class="font-extrabold text-emerald-400 mb-2 flex items-center text-lg">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            Plan d'Action & Focus Juillet
-        </h4>
-        <p class="text-slate-300 text-sm leading-relaxed">
-            Le mois de juin a été marqué par <strong>13 réclamations pour présence d'insectes</strong>. L'effort principal du mois prochain portera sur le renforcement du nettoyage des zones de stockage et la vérification des scellages. Par ailleurs, une vigilance accrue est demandée sur la <strong>Ligne N</strong> qui concentre le plus d'incidents d'emballage ce mois-ci. Merci à tous pour votre implication !
-        </p>
-    </footer>
+        <section class="mb-4">
+            <div class="bg-white p-5 border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition">
+                <h3 class="text-center font-bold text-slate-700 mb-4 uppercase text-xs tracking-wider">Évolution Annuelle des Réclamations (Juin 21 - Juin 22)</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="historiqueChart"></canvas>
+                </div>
+            </div>
+        </section>
 
-</div>
+    </div>
 
 <script>
     // Enregistrer le plugin Datalabels
@@ -226,6 +151,49 @@
             plugins: { 
                 legend: { display: false },
                 datalabels: { align: 'right', anchor: 'end', color: '#475569', font: { weight: 'bold' } }
+            } 
+        }
+    });
+
+    // Graphique 5 : Historique annuel avec moyenne
+    new Chart(document.getElementById('historiqueChart'), {
+        type: 'bar', // Type de base
+        data: {
+            labels: ['Juin 21', 'Juil 21', 'Août 21', 'Sept 21', 'Oct 21', 'Nov 21', 'Déc 21', 'Janv 22', 'Févr 22', 'Mars 22', 'Avr 22', 'Mai 22', 'Juin 22'],
+            datasets: [
+                {
+                    type: 'line', // Surcharge pour afficher une ligne
+                    label: 'Moyenne (34)',
+                    data: [34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34],
+                    borderColor: colors.slate,
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false,
+                    datalabels: { display: false } // On cache les étiquettes pour la ligne de moyenne pour ne pas surcharger
+                },
+                {
+                    type: 'bar',
+                    label: 'Nombre de réclamations',
+                    data: [34, 39, 46, 28, 24, 26, 22, 31, 34, 36, 39, 42, 44],
+                    backgroundColor: colors.lightBlue,
+                    borderColor: colors.blue,
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    datalabels: { align: 'top', anchor: 'end', color: colors.blue, font: { weight: 'bold', size: 11 } }
+                }
+            ]
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            layout: { padding: { top: 25 } },
+            scales: { 
+                y: { beginAtZero: true, suggestedMax: 50, grid: { borderDash: [4, 4] } },
+                x: { grid: { display: false } }
+            }, 
+            plugins: { 
+                legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8 } }
             } 
         }
     });
