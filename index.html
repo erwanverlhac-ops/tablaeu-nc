@@ -6,6 +6,7 @@
     <title>Tableau de Bord Qualité - Juin 2022</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <style>
         /* Règles spécifiques pour une impression PDF propre */
         @media print {
@@ -88,128 +89,146 @@
         </section>
 
         <footer class="bg-slate-800 p-6 rounded-2xl shadow-inner text-white">
-            <h4 class="font-extrabold text-emerald-400 mb-2 flex items-center text-lg">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                Plan d'Action & Focus Juillet
-            </h4>
-            <p class="text-slate-300 text-sm leading-relaxed">
-                Le mois de juin a été marqué par <strong>13 réclamations pour présence d'insectes</strong>. L'effort principal du mois prochain portera sur le renforcement du nettoyage des zones de stockage et la vérification des scellages. Par ailleurs, une vigilance accrue est demandée sur la <strong>Ligne N</strong> qui concentre le plus d'incidents d'emballage ce mois-ci. Merci à tous pour votre implication !
-            </p>
-        </footer>
+        <h4 class="font-extrabold text-emerald-400 mb-2 flex items-center text-lg">
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Plan d'Action & Focus Juillet
+        </h4>
+        <p class="text-slate-300 text-sm leading-relaxed">
+            Le mois de juin a été marqué par <strong>13 réclamations pour présence d'insectes</strong>. L'effort principal du mois prochain portera sur le renforcement du nettoyage des zones de stockage et la vérification des scellages. Par ailleurs, une vigilance accrue est demandée sur la <strong>Ligne N</strong> qui concentre le plus d'incidents d'emballage ce mois-ci. Merci à tous pour votre implication !
+        </p>
+    </footer>
 
-    </div>
+</div>
 
-    <script>
-        // Couleurs de la charte graphique
-        const colors = {
-            red: '#e11d48',
-            orange: '#f59e0b',
-            blue: '#3b82f6',
-            green: '#10b981',
-            slate: '#64748b',
-            lightBlue: 'rgba(59, 130, 246, 0.1)',
-        };
+<script>
+    // Enregistrer le plugin Datalabels
+    Chart.register(ChartDataLabels);
 
-        // Graphique 1 : Origine
-        new Chart(document.getElementById('origineChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Consommateur', 'Client Pro', 'Distributeur'],
-                datasets: [{
-                    data: [36, 4, 4], 
-                    backgroundColor: [colors.orange, colors.blue, colors.slate],
-                    borderWidth: 3,
-                    borderColor: '#ffffff',
-                    hoverOffset: 4
-                }]
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                cutout: '65%',
-                plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } } 
-            }
-        });
+    // Couleurs de la charte graphique
+    const colors = {
+        red: '#e11d48',
+        orange: '#f59e0b',
+        blue: '#3b82f6',
+        green: '#10b981',
+        slate: '#64748b',
+        lightBlue: 'rgba(59, 130, 246, 0.1)',
+    };
 
-        // Graphique 2 : Évolution par semaine
-        new Chart(document.getElementById('evolutionChart'), {
-            type: 'line',
-            data: {
-                labels: ['S1 (1-5)', 'S2 (6-12)', 'S3 (13-19)', 'S4 (20-26)', 'S5 (27-30)'],
-                datasets: [{
-                    label: 'Nombre de réclamations',
-                    data: [9, 12, 10, 8, 5],
-                    borderColor: colors.blue,
-                    backgroundColor: colors.lightBlue,
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: colors.blue,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                scales: { 
-                    y: { beginAtZero: true, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
-                    x: { grid: { display: false } }
-                }, 
-                plugins: { legend: { display: false } } 
-            }
-        });
+    // Graphique 1 : Origine
+    new Chart(document.getElementById('origineChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Consommateur', 'Client Pro', 'Distributeur'],
+            datasets: [{
+                data: [36, 4, 4], 
+                backgroundColor: [colors.orange, colors.blue, colors.slate],
+                borderWidth: 3,
+                borderColor: '#ffffff',
+                hoverOffset: 4
+            }]
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            cutout: '65%',
+            plugins: { 
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
+                datalabels: { color: '#fff', font: { weight: 'bold', size: 14 } }
+            } 
+        }
+    });
 
-        // Graphique 3 : Pareto des Causes (Top 5)
-        new Chart(document.getElementById('paretoChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Insectes', 'Casse sec', 'Emballage abimé', 'Casse cuit', 'Sous-poids'],
-                datasets: [{
-                    label: 'Occurrences',
-                    data: [13, 7, 6, 4, 3],
-                    backgroundColor: [colors.red, colors.slate, colors.slate, colors.slate, colors.slate],
-                    borderRadius: 6,
-                    barPercentage: 0.6
-                }]
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                scales: { 
-                    y: { beginAtZero: true, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
-                    x: { grid: { display: false } }
-                }, 
-                plugins: { legend: { display: false } } 
-            }
-        });
+    // Graphique 2 : Évolution par semaine
+    new Chart(document.getElementById('evolutionChart'), {
+        type: 'line',
+        data: {
+            labels: ['S1 (1-5)', 'S2 (6-12)', 'S3 (13-19)', 'S4 (20-26)', 'S5 (27-30)'],
+            datasets: [{
+                label: 'Nombre de réclamations',
+                data: [9, 12, 10, 8, 5],
+                borderColor: colors.blue,
+                backgroundColor: colors.lightBlue,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: colors.blue,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            layout: { padding: { top: 20 } },
+            scales: { 
+                y: { beginAtZero: true, suggestedMax: 15, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
+                x: { grid: { display: false } }
+            }, 
+            plugins: { 
+                legend: { display: false },
+                datalabels: { align: 'top', anchor: 'end', color: colors.blue, font: { weight: 'bold', size: 12 }, offset: 4 }
+            } 
+        }
+    });
 
-        // Graphique 4 : Lignes de conditionnement
-        new Chart(document.getElementById('localisationChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Ligne N', 'Ligne M', 'Ligne K', 'Ligne G', 'Ligne A', 'Autres'],
-                datasets: [{
-                    label: 'Nombre d\'incidents',
-                    data: [8, 6, 6, 4, 4, 16],
-                    backgroundColor: colors.orange,
-                    borderRadius: 6,
-                    barPercentage: 0.6
-                }]
-            },
-            options: { 
-                indexAxis: 'y', 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                scales: { 
-                    x: { beginAtZero: true, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
-                    y: { grid: { display: false } }
-                }, 
-                plugins: { legend: { display: false } } 
-            }
-        });
-    </script>
+    // Graphique 3 : Pareto des Causes (Top 5)
+    new Chart(document.getElementById('paretoChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Insectes', 'Casse sec', 'Emballage abimé', 'Casse cuit', 'Sous-poids'],
+            datasets: [{
+                label: 'Occurrences',
+                data: [13, 7, 6, 4, 3],
+                backgroundColor: [colors.red, colors.slate, colors.slate, colors.slate, colors.slate],
+                borderRadius: 6,
+                barPercentage: 0.6
+            }]
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            layout: { padding: { top: 20 } },
+            scales: { 
+                y: { beginAtZero: true, suggestedMax: 15, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
+                x: { grid: { display: false } }
+            }, 
+            plugins: { 
+                legend: { display: false },
+                datalabels: { align: 'top', anchor: 'end', color: '#475569', font: { weight: 'bold' } }
+            } 
+        }
+    });
+
+    // Graphique 4 : Lignes de conditionnement
+    new Chart(document.getElementById('localisationChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Ligne N', 'Ligne M', 'Ligne K', 'Ligne G', 'Ligne A', 'Autres'],
+            datasets: [{
+                label: 'Nombre d\'incidents',
+                data: [8, 6, 6, 4, 4, 16],
+                backgroundColor: colors.orange,
+                borderRadius: 6,
+                barPercentage: 0.6
+            }]
+        },
+        options: { 
+            indexAxis: 'y', 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            layout: { padding: { right: 30 } },
+            scales: { 
+                x: { beginAtZero: true, suggestedMax: 20, grid: { borderDash: [4, 4] }, ticks: { precision: 0 } },
+                y: { grid: { display: false } }
+            }, 
+            plugins: { 
+                legend: { display: false },
+                datalabels: { align: 'right', anchor: 'end', color: '#475569', font: { weight: 'bold' } }
+            } 
+        }
+    });
+</script>
 </body>
 </html>
